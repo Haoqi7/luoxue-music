@@ -1,0 +1,274 @@
+{
+  "name": "lx-music-desktop",
+  "version": "1.20.0",
+  "description": "一个免费的音乐查找助手",
+  "main": "./dist/electron/main.js",
+  "productName": "lx-music-desktop",
+  "scripts": {
+    "pack": "node build-config/pack.js && npm run pack:win:setup:x64",
+    "pack:win": "node build-config/pack.js && npm run pack:win:setup:x64 && npm run pack:win:setup:x86 && npm run pack:win:setup:arm64 && npm run pack:win:setup:x86_64 && npm run pack:win:7z",
+    "pack:win:setup:x86_64": "cross-env TARGET=Setup ARCH=x86_64 electron-builder -w=nsis --x64 --ia32 -p never",
+    "pack:win:setup:x64": "cross-env TARGET=Setup ARCH=x64 electron-builder -w=nsis --x64 -p never",
+    "pack:win:setup:x86": "cross-env TARGET=Setup ARCH=x86 electron-builder -w=nsis --ia32 -p never",
+    "pack:win:setup:arm64": "cross-env TARGET=Setup ARCH=arm64 electron-builder -w=nsis --arm64 -p never",
+    "pack:win:portable": "npm run pack:win:portable:x86_64 && npm run pack:win:portable:x64 && npm run pack:win:portable:x86",
+    "pack:win:portable:x86_64": "cross-env TARGET=portable ARCH=x86_64 electron-builder -w=portable --x64 --ia32 -p never",
+    "pack:win:portable:x64": "cross-env TARGET=portable ARCH=x64 electron-builder -w=portable --x64 -p never",
+    "pack:win:portable:x86": "cross-env TARGET=portable ARCH=x86 electron-builder -w=portable --ia32 -p never",
+    "pack:win:7z": "npm run pack:win:7z:x64 && npm run pack:win:7z:x86",
+    "pack:win:7z:x64": "cross-env TARGET=green ARCH=win_x64 electron-builder -w=7z --x64 -p never",
+    "pack:win:7z:x86": "cross-env TARGET=green ARCH=win_x86 electron-builder -w=7z --ia32 -p never",
+    "pack:win:7z:arm64": "cross-env TARGET=green ARCH=win_arm64 electron-builder -w=7z --arm64 -p never",
+    "pack:linux": "node build-config/pack.js && npm run pack:linux:deb && npm run pack:linux:appImage && npm run pack:linux:rpm && npm run pack:linux:pacman",
+    "pack:linux:appImage": "cross-env ARCH=x64 electron-builder -l=AppImage -p never",
+    "pack:linux:deb": "npm run pack:linux:deb:x64 && npm run pack:linux:deb:x86 && npm run pack:linux:deb:arm64 && npm run pack:linux:deb:armv7l",
+    "pack:linux:deb:x64": "cross-env ARCH=x64 electron-builder -l=deb --x64 -p never",
+    "pack:linux:deb:x86": "cross-env ARCH=x86 electron-builder -l=deb --ia32 -p never",
+    "pack:linux:deb:arm64": "cross-env ARCH=arm64 electron-builder -l=deb --arm64 -p never",
+    "pack:linux:deb:armv7l": "cross-env ARCH=armv7l electron-builder -l=deb --armv7l -p never",
+    "pack:linux:rpm": "cross-env ARCH=x64 electron-builder -l=rpm --x64 -p never",
+    "pack:linux:pacman": "cross-env ARCH=x64 electron-builder -l=pacman --x64 -p never",
+    "pack:mac": "node build-config/pack.js && npm run pack:mac:dmg && npm run pack:mac:dmg:arm64",
+    "pack:mac:dmg": "cross-env electron-builder -m=dmg -p never",
+    "pack:mac:dmg:arm64": "cross-env electron-builder -m=dmg --arm64 -p never",
+    "pack:dir": "node build-config/pack.js && electron-builder --dir",
+    "publish": "node publish",
+    "publish:win:setup:x64:always": "cross-env TARGET=Setup ARCH=x64 electron-builder -w=nsis --x64 -p always",
+    "publish:win:setup:x64": "cross-env TARGET=Setup ARCH=x64 electron-builder -w=nsis --x64 -p always",
+    "publish:win:setup:x86": "cross-env TARGET=Setup ARCH=x86 electron-builder -w=nsis --ia32 -p onTagOrDraft",
+    "publish:win:setup:arm64": "cross-env TARGET=Setup ARCH=arm64 electron-builder -w=nsis --arm64 -p onTagOrDraft",
+    "publish:win:setup:x86_64": "cross-env TARGET=Setup ARCH=x86_64 electron-builder -w=nsis --x64 --ia32 -p onTagOrDraft",
+    "publish:win:portable": "npm run publish:win:portable:x86_64 && npm run publish:win:portable:x64 && npm run publish:win:portable:x86",
+    "publish:win:portable:x86_64": "cross-env TARGET=portable ARCH=x86_64 electron-builder -w=portable --x64 --ia32 -p onTagOrDraft",
+    "publish:win:portable:x64": "cross-env TARGET=portable ARCH=x64 electron-builder -w=portable --x64 -p onTagOrDraft",
+    "publish:win:portable:x86": "cross-env TARGET=portable ARCH=x86 electron-builder -w=portable --ia32 -p onTagOrDraft",
+    "publish:win:7z:x64": "cross-env TARGET=green ARCH=win_x64 electron-builder -w=7z --x64 -p onTagOrDraft",
+    "publish:win:7z:x86": "cross-env TARGET=green ARCH=win_x86 electron-builder -w=7z --ia32 -p onTagOrDraft",
+    "publish:win:7z:arm64": "cross-env TARGET=green ARCH=win_arm64 electron-builder -w=7z --arm64 -p onTagOrDraft",
+    "publish:mac:dmg:always": "electron-builder -m=dmg -p always",
+    "publish:mac:dmg": "electron-builder -m=dmg -p onTagOrDraft",
+    "publish:mac:dmg:arm64": "electron-builder -m=dmg --arm64 -p onTagOrDraft",
+    "publish:linux:deb:x64:always": "cross-env ARCH=x64 electron-builder -l=deb --x64 -p always",
+    "publish:linux:deb:x64": "cross-env ARCH=x64 electron-builder -l=deb --x64 -p onTagOrDraft",
+    "publish:linux:deb:x86": "cross-env ARCH=x86 electron-builder -l=deb --ia32 -p onTagOrDraft",
+    "publish:linux:deb:arm64": "cross-env ARCH=arm64 electron-builder -l=deb --arm64 -p onTagOrDraft",
+    "publish:linux:deb:armv7l": "cross-env ARCH=armv7l electron-builder -l=deb --armv7l -p onTagOrDraft",
+    "publish:linux:appImage": "cross-env ARCH=x64 electron-builder -l=AppImage -p onTagOrDraft",
+    "publish:linux:rpm": "cross-env ARCH=x64 electron-builder -l=rpm --x64 -p onTagOrDraft",
+    "publish:linux:pacman": "cross-env ARCH=x64 electron-builder -l=pacman --x64 -p onTagOrDraft",
+    "dev": "node build-config/runner-dev.js",
+    "clean:electron": "rimraf dist/electron",
+    "clean": "rimraf dist && rimraf build",
+    "build:src": "node build-config/pack.js",
+    "build:main": "cross-env NODE_ENV=production webpack --config build-config/main/webpack.config.prod.js --progress",
+    "build:renderer": "cross-env NODE_ENV=production webpack --config build-config/renderer/webpack.config.prod.js --progress",
+    "build:renderer-lyric": "cross-env NODE_ENV=production webpack --config build-config/renderer-lyric/webpack.config.prod.js --progress",
+    "build": "npm run clean:electron && npm run build:main && npm run build:renderer && npm run build:renderer-lyric",
+    "lint": "eslint --ext .js,.vue -f node_modules/eslint-formatter-friendly src",
+    "lint:fix": "eslint --ext .js,.vue -f node_modules/eslint-formatter-friendly --fix src",
+    "dp": "cross-env ELECTRON_GET_USE_PROXY=true GLOBAL_AGENT_HTTPS_PROXY=http://localhost:1081 npm run pack",
+    "up": "cross-env ELECTRON_GET_USE_PROXY=true GLOBAL_AGENT_HTTPS_PROXY=http://localhost:1081 npm i"
+  },
+  "browserslist": [
+    "Electron 13.6.8"
+  ],
+  "engines": {
+    "node": ">= 16",
+    "npm": ">=8.3.0"
+  },
+  "build": {
+    "appId": "cn.toside.music.desktop",
+    "protocols": {
+      "name": "lx-music-protocol",
+      "schemes": [
+        "lxmusic"
+      ]
+    },
+    "directories": {
+      "buildResources": "./resources",
+      "output": "./build"
+    },
+    "files": [
+      "dist/electron/**/*"
+    ],
+    "asar": {
+      "smartUnpack": false
+    },
+    "extraResources": [
+      "./licenses"
+    ],
+    "win": {
+      "icon": "./resources/icons/icon.ico",
+      "legalTrademarks": "lyswhut",
+      "artifactName": "${productName} v${version} ${env.ARCH} ${env.TARGET}.${ext}"
+    },
+    "mac": {
+      "icon": "./resources/icons/icon.icns",
+      "category": "public.app-category.music",
+      "extendInfo": {
+        "CFBundleName": "lx-music-desktop",
+        "CFBundleDisplayName": "LX Music"
+      }
+    },
+    "linux": {
+      "maintainer": "lyswhut <lyswhut@qq.com>",
+      "artifactName": "${productName} v${version} ${env.ARCH}.${ext}",
+      "icon": "./resources/icons",
+      "category": "Utility;AudioVideo;Audio;Player;Music;",
+      "desktop": {
+        "Name[zh_CN]": "洛雪音乐助手"
+      }
+    },
+    "nsis": {
+      "oneClick": false,
+      "language": "2052",
+      "allowToChangeInstallationDirectory": true,
+      "differentialPackage": true,
+      "license": "./licenses/license.rtf",
+      "shortcutName": "LX Music"
+    },
+    "dmg": {
+      "window": {
+        "width": 600,
+        "height": 400
+      },
+      "contents": [
+        {
+          "x": 106,
+          "y": 252,
+          "name": "LX Music"
+        },
+        {
+          "x": 490,
+          "y": 252,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "title": "洛雪音乐助手 v${version}"
+    },
+    "appImage": {
+      "license": "./licenses/license_zh.txt",
+      "category": "Utility;AudioVideo;Audio;Player;Music;"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "lyswhut",
+        "repo": "lx-music-desktop"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lyswhut/lx-music-desktop.git"
+  },
+  "keywords": [
+    "music-player",
+    "electron-app",
+    "vuejs2"
+  ],
+  "author": {
+    "name": "lyswhut",
+    "email": "lyswhut@qq.com"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/lyswhut/lx-music-desktop/issues"
+  },
+  "homepage": "https://github.com/lyswhut/lx-music-desktop#readme",
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-transform-modules-umd": "^7.16.7",
+    "@babel/plugin-transform-runtime": "^7.17.0",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.16.11",
+    "babel-loader": "^8.2.4",
+    "babel-preset-minify": "^0.5.1",
+    "browserslist": "^4.20.2",
+    "chalk": "^4.1.2",
+    "changelog-parser": "^2.8.1",
+    "copy-webpack-plugin": "^10.2.4",
+    "core-js": "^3.22.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.1",
+    "css-minimizer-webpack-plugin": "^3.4.1",
+    "del": "^6.0.0",
+    "electron": "^13.6.9",
+    "electron-builder": "^23.0.6",
+    "electron-debug": "^3.2.0",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-to-chromium": "^1.4.111",
+    "electron-updater": "^5.0.2",
+    "eslint": "^8.13.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-formatter-friendly": "git+https://github.com/lyswhut/eslint-friendly-formatter.git#2170d1320e2fad13615a9dcf229669f0bb473a53",
+    "eslint-plugin-html": "^6.2.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-standard": "^4.1.0",
+    "eslint-webpack-plugin": "^3.1.1",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
+    "markdown-it": "^12.3.2",
+    "mini-css-extract-plugin": "^2.6.0",
+    "node-loader": "^2.0.0",
+    "postcss": "^8.4.12",
+    "postcss-loader": "^6.2.1",
+    "postcss-pxtorem": "^6.0.0",
+    "pug": "^3.0.2",
+    "pug-loader": "^2.4.0",
+    "pug-plain-loader": "^1.1.0",
+    "raw-loader": "^4.0.2",
+    "rimraf": "^3.0.2",
+    "spinnies": "git+https://github.com/lyswhut/spinnies.git#233305c58694aa3b053e3ab9af9049993f918b9d",
+    "svg-sprite-loader": "^6.0.11",
+    "svg-transform-loader": "^2.0.13",
+    "svgo-loader": "^3.0.0",
+    "terser-webpack-plugin": "^5.3.1",
+    "url-loader": "^4.1.1",
+    "vue-loader": "^17.0.0",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.8.1",
+    "webpack-hot-middleware": "git+https://github.com/lyswhut/webpack-hot-middleware.git#329c4375134b89d39da23a56a94db651247c74a1",
+    "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "bufferutil": "^4.0.6",
+    "crypto-js": "^4.1.1",
+    "electron-log": "^4.4.6",
+    "electron-store": "^8.0.1",
+    "font-list": "git+https://github.com/lyswhut/node-font-list.git#4edbb1933b49a9bac1eedd63a31da16b487fe57d",
+    "http-terminator": "^3.2.0",
+    "iconv-lite": "^0.6.3",
+    "image-size": "^1.0.1",
+    "koa": "^2.13.4",
+    "long": "^5.2.0",
+    "mitt": "^3.0.0",
+    "needle": "^3.1.0",
+    "node-id3": "^0.2.3",
+    "request": "^2.88.2",
+    "socket.io": "^4.4.1",
+    "sortablejs": "^1.15.0",
+    "tunnel": "^0.0.6",
+    "utf-8-validate": "^5.0.9",
+    "vue": "^3.2.33",
+    "vue-i18n": "^9.2.0-beta.35",
+    "vue-router": "^4.0.14",
+    "vuex": "^4.0.2"
+  },
+  "overrides": {
+    "async": "^2.3.0",
+    "svg-sprite-loader": {
+      "postcss": "8.2.13"
+    }
+  }
+}

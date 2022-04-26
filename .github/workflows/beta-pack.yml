@@ -1,0 +1,254 @@
+name: Build Beta
+
+on:
+  push:
+    branches:
+      - beta
+
+jobs:
+  Windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+      - name: Check out git repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Cache file
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            %APPDATA%\npm-cache
+            %LOCALAPPDATA%\electron\Cache
+            %LOCALAPPDATA%\electron-builder\Cache
+          key: ${{ runner.os }}-build-caches-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - name: Install Dependencies
+        run: |
+          npm install npm@8.5 -g
+          npm install
+
+      - name: Build src code
+        run: npm run build:src
+
+      - name: Build Package Setup x64
+        run: npm run pack:win:setup:x64
+      - name: Upload Artifact Setup x64
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-x64-Setup
+          path: build/* x64 Setup.exe
+
+      - name: Build Package Setup x86
+        run: npm run pack:win:setup:x86
+      - name: Upload Artifact Setup x86
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-x86-Setup
+          path: build/* x86 Setup.exe
+
+      - name: Build Package Setup arm64
+        run: npm run pack:win:setup:arm64
+      - name: Upload Artifact Setup arm64
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-arm64-Setup
+          path: build/* arm64 Setup.exe
+
+      - name: Build Package Setup x86_64
+        run: npm run pack:win:setup:x86_64
+      - name: Upload Artifact Setup x86_64
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-x86_64-Setup
+          path: build/*x86_64 Setup.exe
+
+      - name: Build Package 7z x64
+        run: npm run pack:win:7z:x64
+      - name: Upload Artifact 7z x64
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-win_x64-green
+          path: build/*win_x64 green.7z
+
+      - name: Build Package 7z x86
+        run: npm run pack:win:7z:x86
+      - name: Upload Artifact 7z x86
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-win_x86-green
+          path: build/*win_x86 green.7z
+
+      - name: Build Package 7z arm64
+        run: npm run pack:win:7z:arm64
+      - name: Upload Artifact 7z arm64
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-win_arm64-green
+          path: build/*win_arm64 green.7z
+
+      - name: Generate file MD5
+        run: |
+          cd build
+          Get-FileHash *.exe,*.7z -Algorithm MD5 | Format-List
+
+  Mac:
+    name: Mac
+    runs-on: macos-latest
+    steps:
+      - name: Check out git repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Cache file
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            $HOME/.cache/electron
+            $HOME/.cache/electron-builder
+            $HOME/.npm/_prebuilds
+          key: ${{ runner.os }}-build-caches-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - name: Install Dependencies
+        run: |
+          npm install npm@8.5 -g
+          npm install
+
+      - name: Build src code
+        run: npm run build:src
+
+      - name: Build Package dmg
+        run: |
+          npm run pack:mac:dmg
+          npm run pack:mac:dmg:arm64
+        env:
+          ELECTRON_CACHE: $HOME/.cache/electron
+          ELECTRON_BUILDERCACHE: $HOME/.cache/electron-builder
+
+      - name: Upload Artifact dmg
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-mac-dmg
+          path: |
+            build/*.dmg
+            !build/*-arm64.dmg
+      - name: Upload Artifact dmg
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-mac-dmg-arm64
+          path: build/*-arm64.dmg
+
+      - name: Generate file MD5
+        run: |
+          cd build
+          md5 *.dmg
+
+  Linux:
+    name: Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install package
+        run: sudo apt-get update && sudo apt-get install -y rpm libarchive-tools
+
+      - name: Check out git repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Cache file
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            $HOME/.cache/electron
+            $HOME/.cache/electron-builder
+            $HOME/.npm/_prebuilds
+          key: ${{ runner.os }}-build-caches-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - name: Install Dependencies
+        run: |
+          npm install npm@8.5 -g
+          npm install
+
+      - name: Build src code
+        run: npm run build:src
+
+      - name: Build Package deb x64
+        run: npm run pack:linux:deb:x64
+      - name: Upload Artifact deb x64
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-deb-x64
+          path: build/* x64.deb
+
+      - name: Build Package deb x86
+        run: npm run pack:linux:deb:x86
+      - name: Upload Artifact deb x86
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-deb-x86
+          path: build/* x86.deb
+
+      - name: Build Package deb arm64
+        run: npm run pack:linux:deb:arm64
+      - name: Upload Artifact deb arm64
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-deb-arm64
+          path: build/* arm64.deb
+
+      - name: Build Package deb armv7l
+        run: npm run pack:linux:deb:armv7l
+      - name: Upload Artifact deb armv7l
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-deb-armv7l
+          path: build/* armv7l.deb
+
+      - name: Build Package x64 appImage
+        run: npm run pack:linux:appImage
+      - name: Upload Artifact x64 appImage
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-x64-appImage
+          path: build/* x64.AppImage
+
+      - name: Build Package x64 rpm
+        run: npm run pack:linux:rpm
+      - name: Upload Artifact x64 rpm
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-x64-rpm
+          path: build/* x64.rpm
+
+      - name: Build Package x64 pacman
+        run: npm run pack:linux:pacman
+      - name: Upload Artifact x64 pacman
+        uses: actions/upload-artifact@v2
+        with:
+          name: lx-music-desktop-x64-pacman
+          path: build/* x64.pacman
+
+      - name: Generate file MD5
+        run: |
+          cd build
+          md5sum *.deb *.rpm *.pacman *.AppImage
