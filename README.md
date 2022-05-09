@@ -1,4 +1,4 @@
-<p align="center"><a href="https://github.com/Haoqi7/luoxue-music"><img width="200" src="https://github.com/Haoqi7/luoxue-music/blob/master/doc/images/icon.png" alt="lx-music logo"></a></p>
+<p align="center"><a href="https://github.com/Haoqi7/luoxue-music"><img width="200" src="https://github.com/Haoqi7/luoxue-music/doc/images/icon.png" alt="lx-music logo"></a></p>
 
 <p align="center">
   <a href="https://github.com/Haoqi7/luoxue-music/releases"><img src="https://img.shields.io/github/release/Haoqi7/luoxue-music" alt="Release version"></a>
@@ -56,7 +56,7 @@
 从v1.17.0起支持 Scheme URL，可以使用此功能从浏览器等场景下调用LX Music，我们开发了一个[油猴脚本](https://github.com/lyswhut/lx-music-script#readme)配套使用，<br>
 脚本安装地址：<https://greasyfork.org/zh-CN/scripts/438148><br>
 
-若你想自己调用LX Music，可以看[Scheme URL支持](https://github.com/Haoqi7/luoxue-music/blob/master/FAQ.md#scheme-url%E6%94%AF%E6%8C%81)
+若你想自己调用LX Music，可以看[Scheme URL支持](https://github.com/Haoqi7/luoxue-music/FAQ.md#scheme-url%E6%94%AF%E6%8C%81)
 
 #### 启动参数
 
@@ -70,7 +70,7 @@
 - `-dt` 以非透明模式启动（Disable Transparent）
 - `-dhmkh` 禁用硬件媒体密钥处理（Disable Hardware Media Key Handling）
 
-启动参数的详细说明请看[启动参数说明](https://github.com/Haoqi7/luoxue-music/blob/master/FAQ.md#%E5%90%AF%E5%8A%A8%E5%8F%82%E6%95%B0)
+启动参数的详细说明请看[启动参数说明](https://github.com/Haoqi7/luoxue-music/FAQ.md#%E5%90%AF%E5%8A%A8%E5%8F%82%E6%95%B0)
 
 #### 数据存储路径
 
@@ -110,11 +110,11 @@ npm run pack:linux
 
 ### 常见问题
 
-常见问题已移至：<https://github.com/Haoqi7/luoxue-music/blob/master/FAQ.md>
+常见问题已移至：<https://github.com/Haoqi7/luoxue-music/FAQ.md>
 
 ### 项目协议
 
-本项目基于 [Apache License 2.0](https://github.com/Haoqi7/luoxue-music/blob/master/LICENSE) 许可证发行，以下协议是对于 Apache License 2.0 的补充，如有冲突，以以下协议为准。
+本项目基于 [Apache License 2.0](https://github.com/Haoqi7/luoxue-music/LICENSE) 许可证发行，以下协议是对于 Apache License 2.0 的补充，如有冲突，以以下协议为准。
 
 词语约定：本协议中的“本项目”指洛雪音乐桌面版项目；“使用者”指签署本协议的使用者；“官方音乐平台”指对本项目内置的包括酷我、酷狗、咪咕等音乐源的官方平台统称；“版权数据”指包括但不限于图像、音频、名字等在内的他人拥有所属版权的数据。
 
