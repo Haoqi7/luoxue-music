@@ -1,4 +1,4 @@
-<p align="center"><a href="https://github.com/Haoqi7/luoxue-music"><img width="200" src="https://github.com/Haoqi7/luoxue-music/doc/images/icon.png" alt="lx-music logo"></a></p>
+<p align="center"><a href="https://github.com/Haoqi7/luoxue-music"><img width="200" src="https://github.com/Haoqi7/luoxue-music/blob/master/doc/images/icon.png" alt="lx-music logo"></a></p>
 
 <p align="center">
   <a href="https://github.com/Haoqi7/luoxue-music/releases"><img src="https://img.shields.io/github/release/Haoqi7/luoxue-music" alt="Release version"></a>
