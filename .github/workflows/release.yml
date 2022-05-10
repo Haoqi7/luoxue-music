@@ -67,12 +67,8 @@ jobs:
         run: |
           cd build
           Get-FileHash *.exe,*.7z -Algorithm MD5 | Format-List
-      - name: upload
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Uploading
+        uses: actions/upload-artifact@v1
         with:
-          upload_url: ${{ needs.release.outputs.upload_url }}
-          asset_path: x-ui-linux-amd64.tar.gz # 发布的压缩包名称
-          asset_name: x-ui-linux-amd64.tar.gz # 发布的压缩包名称
-          asset_content_type: application/gzip
+          name: release_win # 生成的压缩包名称
+          path: release # 需要打包的路径
