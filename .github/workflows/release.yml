@@ -67,8 +67,3 @@ jobs:
         run: |
           cd build
           Get-FileHash *.exe,*.7z -Algorithm MD5 | Format-List
-      - name: Uploading
-        uses: actions/upload-artifact@v1
-        with:
-          name: release_win # 生成的压缩包名称
-          path: release # 需要打包的路径
