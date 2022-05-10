@@ -2,7 +2,7 @@ name: Release X-ui
 on:
   push:
     tags:
-      - 0.*
+      - "v*"
   workflow_dispatch:
 
 jobs:
